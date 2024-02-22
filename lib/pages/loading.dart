@@ -1,41 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:world_time/services/i_world_time_service.dart';
+import 'package:world_time/services/world_time.dart';
 
 class Loading extends StatefulWidget {
+  
+  final IWorldTimeService worldTimeService;
+
+  Loading ({ required this.worldTimeService });
+
   @override
-  LoadingState createState() => LoadingState();
+  LoadingState createState() => LoadingState(worldTimeService: worldTimeService);
 }
 
 class LoadingState extends State<Loading> {
 
-  void getTime() async {
+  final IWorldTimeService worldTimeService;
 
-    Uri uri = Uri(
-      scheme: 'http',
-      host: 'worldtimeapi.org',
-      path: 'api/timezone/Europe/Madrid',
-    );
-    Response response = await get(uri);
-    Map data = jsonDecode(response.body);
-    // print(data);
-
-    String datetime = data['datetime'];
-    String offset = data['utc_offset'];
-    offset = offset.substring(1, 3);
-    // print(datetime);
-    // print(offset);
-
-    // Create DateTime object
-    DateTime now = DateTime.parse(datetime);
-    now = now.add(Duration(hours: int.parse(offset)));
-    print(now);
-  }
+  LoadingState ({ required this.worldTimeService });
 
   @override
   void initState() {
     super.initState();
-    getTime();
+    WorldTime worldTime = WorldTime(country: 'Europe', location: 'Berlin', flag: 'spain.png');
+    worldTimeService.getTime(worldTime);
   }
 
   @override
