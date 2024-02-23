@@ -22,11 +22,15 @@ class LoadingState extends State<Loading> {
   LoadingState ({ required this.worldTimeService });
 
   void setupWorldTime() async {
-    Location location = Location(continent: 'Europe', city: 'Berlin', flag: 'spain.png');
-    worldTime = await worldTimeService.getWorldTime(location);
-    setState(() {
-      time = worldTime!.formattedDateTime;
-    });
+    try {
+      Location location = Location(continent: 'Europe', city: 'Berlin', flag: 'spain.png');
+      worldTime = await worldTimeService.getWorldTime(location);
+      setState(() {
+        time = worldTime!.formattedDateTime;
+      });
+    } catch (e) {
+      time = 'Could not get time data';
+    }
   }
 
   @override

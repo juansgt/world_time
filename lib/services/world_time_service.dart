@@ -9,14 +9,12 @@ class WorldTimeService implements IWorldTimeService {
 
   @override
   Future<WorldTime> getWorldTime(Location location) async {
-    try {
-      
       WorldTime worldTime;
 
       Uri uri = Uri(
         scheme: 'http',
         host: 'worldtimeapi.org',
-        path: 'api/timezone/${location.continent}/${location.city}',
+        path: 'api/timezones/${location.continent}/${location.city}',
       );
       Response response = await get(uri);
       Map data = jsonDecode(response.body);
@@ -31,9 +29,5 @@ class WorldTimeService implements IWorldTimeService {
       worldTime = WorldTime(dateTime: now, formattedDateTime: nowFormatted.toString());
 
       return worldTime;
-
-    } catch (ex) {
-        rethrow;
-    }
   }
 }
