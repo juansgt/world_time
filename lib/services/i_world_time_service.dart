@@ -1,5 +1,6 @@
+import 'package:world_time/services/location.dart';
 import 'package:world_time/services/world_time.dart';
 
 abstract interface class IWorldTimeService {
-  void getTime(WorldTime worldTime) async {}
+  Future<WorldTime?> getWorldTime(Location worldTime) async { }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_time/services/i_world_time_service.dart';
+import 'package:world_time/services/location.dart';
 import 'package:world_time/services/world_time.dart';
 
 class Loading extends StatefulWidget {
@@ -14,21 +15,33 @@ class Loading extends StatefulWidget {
 
 class LoadingState extends State<Loading> {
 
+  String time = 'Loading...';
+  WorldTime? worldTime;
   final IWorldTimeService worldTimeService;
 
   LoadingState ({ required this.worldTimeService });
 
+  void setupWorldTime() async {
+    Location location = Location(continent: 'Europe', city: 'Berlin', flag: 'spain.png');
+    worldTime = await worldTimeService.getWorldTime(location);
+    setState(() {
+      time = worldTime!.formattedDateTime;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    WorldTime worldTime = WorldTime(country: 'Europe', location: 'Berlin', flag: 'spain.png');
-    worldTimeService.getTime(worldTime);
+    setupWorldTime();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('loading screen'),
+      body: Padding(
+        padding: const EdgeInsets.all(50.0),
+        child: Text(time),
+      ),
     );
   }
 }

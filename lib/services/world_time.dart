@@ -1,5 +1,6 @@
 class WorldTime {
-  final String country, location, flag;
+  final DateTime dateTime;
+  final String formattedDateTime;
 
-  WorldTime({ required this.country, required this.location, required this.flag }); 
+  WorldTime({required this.dateTime, required this.formattedDateTime});
 }
