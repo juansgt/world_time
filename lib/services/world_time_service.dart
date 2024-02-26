@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:world_time/services/i_world_time_service.dart';
 import 'package:world_time/services/location.dart';
 import 'package:world_time/services/world_time.dart';
+import 'package:intl/intl.dart';
 
 class WorldTimeService implements IWorldTimeService {
 
@@ -14,8 +15,7 @@ class WorldTimeService implements IWorldTimeService {
       Uri uri = Uri(
         scheme: 'http',
         host: 'worldtimeapi.org',
-        // path: 'api/timezone/${location.continent}/${location.city}',
-        path: 'api/tiffwervre/${location.continent}/${location.city}',
+        path: 'api/timezone/${location.continent}/${location.city}',
       );
       Response response = await get(uri);
 
@@ -32,7 +32,7 @@ class WorldTimeService implements IWorldTimeService {
       DateTime now = DateTime.parse(datetime);
       DateTime nowFormatted = now.add(Duration(hours: int.parse(offset)));
       
-      worldTime = WorldTime(dateTime: now, formattedDateTime: nowFormatted.toString());
+      worldTime = WorldTime(dateTime: now, formattedDateTime: DateFormat.jm().format(nowFormatted));
 
       return worldTime;
   }
