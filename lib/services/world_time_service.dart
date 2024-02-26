@@ -14,9 +14,15 @@ class WorldTimeService implements IWorldTimeService {
       Uri uri = Uri(
         scheme: 'http',
         host: 'worldtimeapi.org',
-        path: 'api/timezones/${location.continent}/${location.city}',
+        // path: 'api/timezone/${location.continent}/${location.city}',
+        path: 'api/tiffwervre/${location.continent}/${location.city}',
       );
       Response response = await get(uri);
+
+      if (response.statusCode >= 400) {
+        throw Exception();
+      }
+
       Map data = jsonDecode(response.body);
 
       String datetime = data['datetime'];

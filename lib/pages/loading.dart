@@ -29,7 +29,9 @@ class LoadingState extends State<Loading> {
         time = worldTime!.formattedDateTime;
       });
     } catch (e) {
-      time = 'Could not get time data';
+      setState(() {
+        time = 'Could not get time data';
+      });
     }
   }
 
