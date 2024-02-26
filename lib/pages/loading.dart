@@ -29,7 +29,8 @@ class LoadingState extends State<Loading> {
         Navigator.pushNamed(context, '/home', arguments: {
         'location': location.city,
         'flag': location.flag,
-        'time': worldTime?.formattedDateTime, 
+        'time': worldTime?.formattedDateTime,
+        'isDayTime': worldTime?.isDayTime
       });
     } catch (e) {
       setState(() {
