@@ -14,7 +14,7 @@ void main() {
     routes: {
       '/': (context) => Loading(worldTimeService: worldTimeService),
       '/home': (context) => Home(),
-      '/location': (context) => ChooseLocation(),
+      '/location': (context) => ChooseLocation(worldTimeService: worldTimeService),
     },
   ));
 }

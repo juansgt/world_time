@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:world_time/services/i_world_time_service.dart';
 import 'package:world_time/services/location.dart';
 import 'package:world_time/services/world_time.dart';
 
 class ChooseLocation extends StatefulWidget {
+
+  final IWorldTimeService worldTimeService;
+
+  ChooseLocation({ required this.worldTimeService });
+
   @override
-  ChooseLocationState createState() => ChooseLocationState();
+  ChooseLocationState createState() => ChooseLocationState(worldTimeService: worldTimeService);
 }
 
 class ChooseLocationState extends State<ChooseLocation> {
+
+  final IWorldTimeService worldTimeService;
+
+  ChooseLocationState({ required this.worldTimeService });
 
   List<Location> locations = [
       Location(continent: 'Europe', city: 'London', flag: 'uk.png'),
@@ -43,7 +53,7 @@ class ChooseLocationState extends State<ChooseLocation> {
             child: Card(
               child: ListTile(
                 onTap: () {
-                  print(locations[index].city);
+                  updateTime(index);
                 },
                 title: Text(locations[index].city),
                 leading: CircleAvatar(
@@ -55,5 +65,19 @@ class ChooseLocationState extends State<ChooseLocation> {
         },
       ),
     );
+  }
+
+  void updateTime(index) async {
+    Location location = locations[index];
+    WorldTime? worldTime;
+
+    worldTime = await worldTimeService.getWorldTime(location);
+
+    Navigator.pop(context, {
+      'location': location.city,
+      'flag': location.flag,
+      'time': worldTime?.formattedDateTime,
+      'isDayTime': worldTime?.isDayTime
+    });
   }
 }
